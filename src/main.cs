@@ -1,3 +1,5 @@
+using System.Diagnostics;
+
 string[] builtins = ["exit", "echo", "type"];
 
 while (true)
@@ -33,7 +35,16 @@ void ProcessInput(string input)
             break;
         
         default:
-            InvalidCommand(parts[0]);
+            var file = SearchInPath(parts[0]);
+
+            if (file is not "")
+            {
+                Process.Start(file, parts.Skip(1));
+            }
+            else
+            {
+                InvalidCommand(parts[0]);
+            }
             break;
     }
 }
@@ -99,6 +110,11 @@ string SearchInPath(string command)
 
     // Return blank if not found
     return "";
+}
+
+void TryToExecute(string[] parts)
+{
+    
 }
 
 void InvalidCommand(string command)
