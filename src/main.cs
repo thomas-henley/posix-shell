@@ -82,6 +82,10 @@ string SearchInPath(string command)
         {
             continue;
         }
+        catch (DirectoryNotFoundException)
+        {
+            continue;
+        }
         
         foreach (var file in files)
         {
