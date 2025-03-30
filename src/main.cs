@@ -23,8 +23,11 @@ void ProcessInput(string input)
     switch (parts[0])
     {
         case "exit":
-            int.TryParse(parts[1], out int exitCode);
+            int.TryParse(parts[1], out var exitCode);
             Environment.Exit(exitCode);
+            break;
+        case "echo":
+            Console.WriteLine(string.Join(" ", parts.Skip(1)));
             break;
         default:
             InvalidCommand(parts[0]);
