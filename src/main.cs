@@ -1,6 +1,3 @@
-using System.Net;
-using System.Net.Sockets;
-
 string[] builtins = ["exit", "echo", "type"];
 
 while (true)
@@ -17,8 +14,6 @@ while (true)
     ProcessInput(input);
 }
 
-return;
-
 void ProcessInput(string input)
 {
     var parts = input.Split(' ');
@@ -34,20 +29,72 @@ void ProcessInput(string input)
             break;
         
         case "type":
-            if (builtins.Contains(parts[1]))
-            {
-                Console.WriteLine($"{parts[1]} is a shell builtin");
-            }
-            else
-            {
-                Console.WriteLine($"{parts[1]}: not found");
-            }
+            TypeCommand(parts[1]);
             break;
         
         default:
             InvalidCommand(parts[0]);
             break;
     }
+}
+
+void TypeCommand(string command)
+{
+    if (builtins.Contains(command))
+    {
+        Console.WriteLine($"{command} is a shell builtin");
+        return;
+    }
+
+    var path = SearchInPath(command);
+
+    if (path is not "")
+    {
+        Console.WriteLine($"{command} is {path}");
+        return;
+    }
+    
+    Console.WriteLine($"{command}: not found");
+}
+
+string SearchInPath(string command)
+{
+    // Get path
+    var pathEnvVar = Environment.GetEnvironmentVariable("PATH");
+    if (pathEnvVar is null)
+    {
+        return "";
+    }
+    
+    var paths = pathEnvVar.Split(Path.PathSeparator);
+
+    // Search path
+    foreach (var path in paths)
+    {
+        if (path is null or "") continue;
+        
+        string[] files;
+        try
+        {
+            files = Directory.GetFileSystemEntries(path, "*.*", SearchOption.AllDirectories);
+        }
+        catch (UnauthorizedAccessException)
+        {
+            continue;
+        }
+        
+        foreach (var file in files)
+        {
+            if (Path.GetFileName(file) == command)
+            {
+                // Found it!
+                return file;
+            }
+        }
+    }
+
+    // Return blank if not found
+    return "";
 }
 
 void InvalidCommand(string command)
