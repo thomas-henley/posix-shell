@@ -40,7 +40,7 @@ void ProcessInput(string input)
             }
             else
             {
-                InvalidCommand(parts[1]);
+                Console.WriteLine($"{parts[1]}: not found");
             }
             break;
         
