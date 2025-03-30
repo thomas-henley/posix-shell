@@ -7,10 +7,30 @@ while (true)
 
     // Wait for user input
     var input = Console.ReadLine() ?? string.Empty;
-    InvalidCommand(input);
+    if (input is null or "")
+    {
+        continue;
+    }
+    
+    ProcessInput(input);
 }
 
 return;
+
+void ProcessInput(string input)
+{
+    var parts = input.Split(' ');
+    switch (parts[0])
+    {
+        case "exit":
+            int.TryParse(parts[1], out int exitCode);
+            Environment.Exit(exitCode);
+            break;
+        default:
+            InvalidCommand(parts[0]);
+            break;
+    }
+}
 
 void InvalidCommand(string command)
 {
