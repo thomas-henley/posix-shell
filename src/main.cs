@@ -39,6 +39,7 @@ void ProcessInput(string input)
 
             if (file is not "")
             {
+                if (!OperatingSystem.IsWindows()) file = Path.GetFileName(file);
                 Process.Start(file, parts.Skip(1));
             }
             else
@@ -100,7 +101,7 @@ string SearchInPath(string command)
         
         foreach (var file in files)
         {
-            if (Path.GetFileName(file) == command)
+            if (Path.GetFileName(file) == command || Path.GetFileName(file) == command + ".exe")
             {
                 // Found it!
                 return file;
