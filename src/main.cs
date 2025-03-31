@@ -133,7 +133,7 @@ public static class Extensions
         
         foreach (var c in input)
         {
-            if (c == '\\' && !openDoubleQuote && !openQuote)
+            if (c == '\\' && !openQuote)
             {
                 backslash = true;
                 continue;
@@ -141,6 +141,11 @@ public static class Extensions
 
             if (backslash)
             {
+                char[] special = ['\\', 'n', '"', '$'];
+                if (openDoubleQuote && special.Contains(c))
+                {
+                    token.Append('\\');
+                }
                 token.Append(c);
                 backslash = false;
                 continue;
