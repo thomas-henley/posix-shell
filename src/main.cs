@@ -125,7 +125,12 @@ string SearchInPath(string command)
 
 void ChangeDirectory(string path)
 {
-    if (Directory.Exists(path))
+    if (path == "~")
+    {
+        var homePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+        Directory.SetCurrentDirectory(homePath);
+    }
+    else if (Directory.Exists(path))
     {
         Directory.SetCurrentDirectory(path);
     }
