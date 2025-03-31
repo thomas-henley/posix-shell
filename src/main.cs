@@ -129,8 +129,16 @@ public static class Extensions
         StringBuilder token = new();
         var openQuote = false;
         var openDoubleQuote = false;
+        var backslash = false;
+        
         foreach (var c in input)
         {
+            if (c == '\\')
+            {
+                backslash = true;
+                continue;
+            }
+            
             if (c == '"')
             {
                 openDoubleQuote = !openDoubleQuote;
@@ -143,7 +151,7 @@ public static class Extensions
                 continue;
             }
             
-            if (c == separator && token.ToString() != string.Empty && !openQuote && !openDoubleQuote)
+            if (backslash || (c == separator && token.ToString() != string.Empty && !openQuote && !openDoubleQuote))
             {
                 parts.Add(token.ToString());
                 token.Clear();
