@@ -138,6 +138,13 @@ public static class Extensions
                 backslash = true;
                 continue;
             }
+
+            if (backslash)
+            {
+                token.Append(c);
+                backslash = false;
+                continue;
+            }
             
             if (c == '"')
             {
@@ -151,7 +158,7 @@ public static class Extensions
                 continue;
             }
             
-            if (backslash || (c == separator && token.ToString() != string.Empty && !openQuote && !openDoubleQuote))
+            if (c == separator && token.ToString() != string.Empty && !openQuote && !openDoubleQuote)
             {
                 parts.Add(token.ToString());
                 token.Clear();
