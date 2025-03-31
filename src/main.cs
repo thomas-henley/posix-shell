@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Text;
 
 string[] builtins = ["exit", "echo", "type"];
 
@@ -18,7 +19,7 @@ while (true)
 
 void ProcessInput(string input)
 {
-    var parts = input.Split(' ');
+    var parts = input.SplitWithQuotes(' ');
     switch (parts[0])
     {
         case "exit":
@@ -78,7 +79,7 @@ string SearchInPath(string command)
         return "";
     }
     
-    var paths = pathEnvVar.Split(Path.PathSeparator);
+    var paths = pathEnvVar.SplitWithQuotes(Path.PathSeparator);
 
     // Search path
     foreach (var path in paths)
@@ -113,12 +114,47 @@ string SearchInPath(string command)
     return "";
 }
 
-void TryToExecute(string[] parts)
-{
-    
-}
-
 void InvalidCommand(string command)
 {
     Console.WriteLine($"{command}: command not found");
+}
+
+public static class Extensions
+{
+    public static string[] SplitWithQuotes(this string input, char separator = ' ')
+    {
+        var parts = new List<string>();
+
+        StringBuilder token = new();
+        var openQuote = false;
+        foreach (var c in input)
+        {
+            if (c == '\'')
+            {
+                openQuote = !openQuote;
+                continue;
+            }
+            
+            if (c == separator && token.ToString() != string.Empty && !openQuote)
+            {
+                parts.Add(token.ToString());
+                token.Clear();
+                continue;
+            }
+
+            if (c == separator && !openQuote)
+            {
+                continue;
+            }
+
+            token.Append(c);
+        }
+
+        if (token.ToString() != string.Empty)
+        {
+            parts.Add(token.ToString());
+        }
+
+        return parts.ToArray();
+    }
 }
