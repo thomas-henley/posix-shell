@@ -125,7 +125,14 @@ string SearchInPath(string command)
 
 void ChangeDirectory(string path)
 {
-    Directory.SetCurrentDirectory(path);
+    if (Directory.Exists(path))
+    {
+        Directory.SetCurrentDirectory(path);
+    }
+    else
+    {
+        Console.WriteLine($"{path}: No such file or directory");
+    }
 }
 
 void InvalidCommand(string command)
