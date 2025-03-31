@@ -5,6 +5,7 @@ string[] builtins = ["exit", "echo", "type", "pwd", "cd"];
 
 while (true)
 {
+    Console.SetOut(new StreamWriter(Console.OpenStandardOutput()) { AutoFlush = true });
     Console.Write("$ ");
 
     // Wait for user input
@@ -20,6 +21,12 @@ while (true)
 void ProcessInput(string input)
 {
     var parts = input.SplitWithQuotes(' ');
+
+    if (parts.Contains(">") || parts.Contains("1>"))
+    {
+        Console.SetOut(new StreamWriter(parts.Last()));
+    }
+
     switch (parts[0])
     {
         case "exit":
