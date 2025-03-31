@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using System.Text;
 
-string[] builtins = ["exit", "echo", "type", "pwd"];
+string[] builtins = ["exit", "echo", "type", "pwd", "cd"];
 
 while (true)
 {
@@ -37,6 +37,10 @@ void ProcessInput(string input)
         
         case "pwd":
             Console.WriteLine(Directory.GetCurrentDirectory());
+            break;
+        
+        case "cd":
+            ChangeDirectory(parts[1]);
             break;
         
         default:
@@ -117,6 +121,11 @@ string SearchInPath(string command)
 
     // Return blank if not found
     return "";
+}
+
+void ChangeDirectory(string path)
+{
+    Directory.SetCurrentDirectory(path);
 }
 
 void InvalidCommand(string command)
