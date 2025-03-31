@@ -133,7 +133,7 @@ public static class Extensions
         
         foreach (var c in input)
         {
-            if (c == '\\' && !openQuote)
+            if (c == '\\' && !openQuote && !backslash)
             {
                 backslash = true;
                 continue;
