@@ -141,7 +141,7 @@ public static class Extensions
 
             if (backslash)
             {
-                char[] special = ['\\', 'n', '"', '$'];
+                char[] special = ['n', '"', '$'];
                 if (openDoubleQuote && special.Contains(c))
                 {
                     token.Append('\\');
