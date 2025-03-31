@@ -146,7 +146,7 @@ public static class Extensions
                 continue;
             }
             
-            if (c == '"')
+            if (c == '"' && !openDoubleQuote)
             {
                 openDoubleQuote = !openDoubleQuote;
                 continue;
