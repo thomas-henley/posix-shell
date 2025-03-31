@@ -133,13 +133,13 @@ public static class Extensions
         
         foreach (var c in input)
         {
-            if (c == '\\')
+            if (c == '\\' && !openDoubleQuote && !openQuote)
             {
                 backslash = true;
                 continue;
             }
 
-            if (backslash && !openDoubleQuote && !openQuote)
+            if (backslash)
             {
                 token.Append(c);
                 backslash = false;
