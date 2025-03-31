@@ -139,7 +139,7 @@ public static class Extensions
                 continue;
             }
 
-            if (backslash)
+            if (backslash && !openDoubleQuote && !openQuote)
             {
                 token.Append(c);
                 backslash = false;
