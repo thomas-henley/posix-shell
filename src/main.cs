@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using System.Text;
 
-string[] builtins = ["exit", "echo", "type"];
+string[] builtins = ["exit", "echo", "type", "pwd"];
 
 while (true)
 {
