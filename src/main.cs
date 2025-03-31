@@ -128,22 +128,29 @@ public static class Extensions
 
         StringBuilder token = new();
         var openQuote = false;
+        var openDoubleQuote = false;
         foreach (var c in input)
         {
-            if (c == '\'')
+            if (c == '"')
+            {
+                openDoubleQuote = !openDoubleQuote;
+                continue;
+            }
+            
+            if (c == '\'' && !openDoubleQuote)
             {
                 openQuote = !openQuote;
                 continue;
             }
             
-            if (c == separator && token.ToString() != string.Empty && !openQuote)
+            if (c == separator && token.ToString() != string.Empty && !openQuote && !openDoubleQuote)
             {
                 parts.Add(token.ToString());
                 token.Clear();
                 continue;
             }
 
-            if (c == separator && !openQuote)
+            if (c == separator && !openQuote && !openDoubleQuote)
             {
                 continue;
             }
