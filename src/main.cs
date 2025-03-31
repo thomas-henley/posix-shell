@@ -138,11 +138,11 @@ public static class Extensions
                 backslash = true;
                 continue;
             }
-
+            
             if (backslash)
             {
-                char[] special = ['n'];
-                if (openDoubleQuote && special.Contains(c))
+                char[] special = ['n', '$', '"', '\\'];
+                if (openDoubleQuote && !special.Contains(c))
                 {
                     token.Append('\\');
                 }
