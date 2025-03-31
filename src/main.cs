@@ -35,6 +35,10 @@ void ProcessInput(string input)
             TypeCommand(parts[1]);
             break;
         
+        case "pwd":
+            Console.WriteLine(Directory.GetCurrentDirectory());
+            break;
+        
         default:
             var file = SearchInPath(parts[0]);
 
