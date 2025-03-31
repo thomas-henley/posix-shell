@@ -25,6 +25,7 @@ void ProcessInput(string input)
     if (parts.Contains(">") || parts.Contains("1>"))
     {
         Console.SetOut(new StreamWriter(parts.Last()));
+        parts = parts.Take(parts.Length - 2).ToArray();
     }
 
     switch (parts[0])
