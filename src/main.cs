@@ -41,7 +41,8 @@ void ProcessInput(string input)
             if (file is not "")
             {
                 if (!OperatingSystem.IsWindows()) file = Path.GetFileName(file);
-                Process.Start(file, parts.Skip(1));
+                var proc = Process.Start(file, parts.Skip(1));
+                proc.WaitForExit();
             }
             else
             {
