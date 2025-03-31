@@ -5,7 +5,6 @@ string[] builtins = ["exit", "echo", "type", "pwd", "cd"];
 
 while (true)
 {
-    Console.SetOut(new StreamWriter(Console.OpenStandardOutput()) { AutoFlush = true });
     Console.Write("$ ");
 
     // Wait for user input
@@ -24,7 +23,7 @@ void ProcessInput(string input)
 
     if (parts.Contains(">") || parts.Contains("1>"))
     {
-        Console.SetOut(new StreamWriter(parts.Last()));
+        Console.SetOut(new StreamWriter(parts.Last()) { AutoFlush = true });
         parts = parts.Take(parts.Length - 2).ToArray();
     }
 
@@ -51,6 +50,17 @@ void ProcessInput(string input)
             ChangeDirectory(parts[1]);
             break;
         
+        case "dir":
+            foreach (var filename in Directory.GetFiles(Directory.GetCurrentDirectory()))
+            {
+                Console.WriteLine(Path.GetFileName(filename));
+            }
+            break;
+        
+        case "wincat":
+            Console.WriteLine(File.ReadAllText(parts[1]));
+            break;
+        
         default:
             var file = SearchInPath(parts[0]);
 
@@ -66,6 +76,10 @@ void ProcessInput(string input)
             }
             break;
     }
+    
+    Console.Out.Flush();
+    Console.Out.Dispose();
+    Console.SetOut(new StreamWriter(Console.OpenStandardOutput()) { AutoFlush = true });
 }
 
 void TypeCommand(string command)
