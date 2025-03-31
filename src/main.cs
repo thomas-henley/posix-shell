@@ -77,7 +77,6 @@ void ProcessInput(string input)
             break;
     }
     
-    Console.Out.Flush();
     Console.Out.Dispose();
     Console.SetOut(new StreamWriter(Console.OpenStandardOutput()) { AutoFlush = true });
 }
