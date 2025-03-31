@@ -23,6 +23,7 @@ void ProcessInput(string input)
 
     if (parts.Contains(">") || parts.Contains("1>"))
     {
+        // TODO: do this stage on linux to figure out why the tests are failing
         Console.SetOut(new StreamWriter(parts.Last()) { AutoFlush = true });
         parts = parts.Take(parts.Length - 2).ToArray();
     }
